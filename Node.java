@@ -1,5 +1,6 @@
 public class Node {
-  public String value;
+
+	public String value;
 	public int priority;
 
 	public static void main(String args[]) {
