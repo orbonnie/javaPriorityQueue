@@ -22,8 +22,6 @@ public class PriorityQueue {
 		int divisor = (int)Math.pow(2, this.x);
 		int parentIndex = childIndex / divisor;
 
-		// System.out.print( "OUTER child: " + childIndex + " ch Pri: " + this.values.get(childIndex).priority + " parent: " + parentIndex  + " par Pri: " + this.values.get(parentIndex).priority + "\n");
-
 		while (this.values.get(parentIndex).priority > this.values.get(childIndex).priority) {
 			Collections.swap(this.values, parentIndex, childIndex);
 			childIndex = parentIndex;
@@ -40,8 +38,6 @@ public class PriorityQueue {
 		int divisor = (int)Math.pow(2, this.x);
 		int parentIndex = 0;
 		int childIndex = this.getChildren(this.values, parentIndex, divisor);
-
-		// System.out.print( "OUTER child: " + childIndex + " ch Pri: " + this.values.get(childIndex).priority + " parent: " + parentIndex  + " par Pri: " + this.values.get(parentIndex).priority + "\n");
 
 		while(childIndex >= 0 && (this.values.get(parentIndex).priority > this.values.get(childIndex).priority)) {
 			Collections.swap(this.values, parentIndex, childIndex);
