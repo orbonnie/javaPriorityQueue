@@ -8,16 +8,21 @@ public class PriorityQueue {
 	}
 
 	public ArrayList <Node> values;
+	double x;
 
-	public PriorityQueue () {
+	public PriorityQueue (double x) {
 		this.values = new ArrayList<Node>();
+		this.x = x;
 	}
 
 	public void insertNode (Node node) {
 		this.values.add(node);
 
 		int childIndex = this.values.size() - 1;
-		int parentIndex = (childIndex - 1) / 2;
+		int divisor = (int)Math.pow(2, this.x);
+		int parentIndex = childIndex / divisor;
+
+		// System.out.print( "OUTER child: " + childIndex + " ch Pri: " + this.values.get(childIndex).priority + " parent: " + parentIndex  + " par Pri: " + this.values.get(parentIndex).priority + "\n");
 
 		while (this.values.get(parentIndex).priority > this.values.get(childIndex).priority) {
 			Collections.swap(this.values, parentIndex, childIndex);
@@ -32,23 +37,23 @@ public class PriorityQueue {
 		Node maxNode = this.values.get(this.values.size() - 1);
 		this.values.remove(this.values.size() - 1);
 
+		int divisor = (int)Math.pow(2, this.x);
 		int parentIndex = 0;
+		int childIndex = this.getChildren(this.values, parentIndex, divisor);
 
-		int childIndex = this.getChild(this.values, parentIndex);
+		// System.out.print( "OUTER child: " + childIndex + " ch Pri: " + this.values.get(childIndex).priority + " parent: " + parentIndex  + " par Pri: " + this.values.get(parentIndex).priority + "\n");
 
 		while(childIndex >= 0 && (this.values.get(parentIndex).priority > this.values.get(childIndex).priority)) {
 			Collections.swap(this.values, parentIndex, childIndex);
 
 			parentIndex = childIndex;
-
-			childIndex = this.getChild(this.values, parentIndex);
-
+			childIndex = this.getChildren(this.values, parentIndex, divisor);
 		}
 
 		return maxNode;
 	}
 
-	public int getChild (ArrayList <Node> arr, int i ) {
+	public int getChild (ArrayList <Node> arr, int i) {
 		if (arr.size() > (i * 2 + 1)) {
 			if (arr.size() <= (i * 2 + 2)) {
 				return i * 2 + 1;
@@ -57,6 +62,25 @@ public class PriorityQueue {
 			} else {
 				return i * 2 + 2;
 			}
+		} else {
+			return - 1;
+		}
+	}
+
+	public int getChildren (ArrayList <Node> arr, int p, int div) {
+		if ((arr.size() - 2)/ div >= p) {
+			int topPriority = arr.get((p * div) + 1).priority;
+			int priorityInd = (p * div) + 1;
+			int end = Math.min((p + 1) * div, arr.size() - 1);
+
+			for (int i = (p * div) + 2; i <= end; i ++) {
+				int currPriority = arr.get(i).priority;
+				if ( currPriority < topPriority) {
+					topPriority = currPriority;
+					priorityInd = i;
+				}
+			}
+			return priorityInd;
 		} else {
 			return - 1;
 		}
