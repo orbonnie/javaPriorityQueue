@@ -18,8 +18,8 @@ public class PriorityQueue {
 	public void insertNode (Node node) {
 		this.values.add(node);
 
-		int childIndex = this.values.size() - 1;
 		int divisor = (int)Math.pow(2, this.x);
+		int childIndex = this.values.size() - 1;
 		int parentIndex = childIndex / divisor;
 
 		while (this.values.get(parentIndex).priority > this.values.get(childIndex).priority) {
@@ -47,20 +47,6 @@ public class PriorityQueue {
 		}
 
 		return maxNode;
-	}
-
-	public int getChild (ArrayList <Node> arr, int i) {
-		if (arr.size() > (i * 2 + 1)) {
-			if (arr.size() <= (i * 2 + 2)) {
-				return i * 2 + 1;
-			}else if (arr.get(i * 2 + 1).priority < arr.get(i * 2 + 2).priority) {
-				return i * 2 + 1;
-			} else {
-				return i * 2 + 2;
-			}
-		} else {
-			return - 1;
-		}
 	}
 
 	public int getChildren (ArrayList <Node> arr, int p, int div) {
